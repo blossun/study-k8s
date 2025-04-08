@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result-app-deploy
+  labels:
+    name: result-app-deploy
+    app: demo-voting-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: # result-app-pod 파드 레이블 내용 복붙
+      name: result-app-pod
+      app: demo-voting-app
+  template: # worker-app-pod 파드 내용 복붙 (apiVersion, kind 제외)
+    metadata:
+      name: result-app-pod
+      labels:
+        name: result-app-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: result-app
+          image: kodekloud/examplevotingapp_result:v1
+          ports:
+            - containerPort: 80 # 결과 애플리케이션이 요청을 수신하는 포트

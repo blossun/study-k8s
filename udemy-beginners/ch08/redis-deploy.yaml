@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deploy
+  labels:
+    name: redis-deploy
+    app: demo-voting-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels: # redis-pod 파드 레이블 내용 복붙
+      name: redis-pod
+      app: demo-voting-app
+  template: # redis-pod 파드 내용 복붙 (apiVersion, kind 제외)
+    metadata:
+      name: redis-pod
+      labels:
+        name: redis-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379 # Redis 이미지 기본 포트
